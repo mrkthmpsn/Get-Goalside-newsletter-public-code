@@ -1,0 +1,24 @@
+# Aim
+- To look at the transfer links between Premier League clubs to see where incoming players come from
+- To see to what degree Championship clubs stay up in the Premier League
+- The point of these two questions is to see to what degree the Premier League is linked to the Championship, compared to other leagues. The interest in this is fan tendencies in the era of televised and internet football fandom, where people can easily keep up with leagues around Europe (and watch Champions League games) - to what extent is there a 'need' for English fans to feel a cultural connection with the Championship vs other major European leagues?
+
+# Project idea outline
+- Scraper on Transfermarkt to look at transfers to Premier League clubs in the past X years
+    - Maybe include a price filter, depending on how they deal with undisclosed fees
+    - What about loans?
+    - Ideally there'd be a 'minutes played' thing, to filter to players who actually ended up playing. The ideal definition is probably something like 'expensive transfers or first-team transfers'
+- Alternatively you could go the other way: look at their current first-team players and see how many of those came from the Championship, or came through the Championship
+    - So you'd look for 'current first team players'
+    - Then look for where they immediately came from (youth team, Championship, other Premier League team, other UK league, European Big Five, other)
+    - Then look for whether the player had ever come through the Championship (i.e. ever played in the Championship)
+- Should end up with data that you can split by the current team, with the data of the transfer as well, because it will probably be worthwhile to split out the current top teams, and maybe to isolate out teams who have been promoted/relegated
+
+# Project implementation outline
+- I prefer the latter approach because it's more immediate, and easier to build and apply for a previous moment in time too. The information in it is all available in FBref.
+- Scrape the players in Premier League teams
+- Go to their player pages and get the team and league info for all the seasons FBref has
+- Create a designation for the various leagues (Championship/Big Five/etc)
+- Note what season is the 'transfer' season for a player, and put in a new db season of transfer and league of origin
+- Note whether players ever played in the Championship
+
