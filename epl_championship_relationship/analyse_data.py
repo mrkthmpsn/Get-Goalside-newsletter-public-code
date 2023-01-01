@@ -1,7 +1,9 @@
 import pandas as pd
 
 player_seasons_df_2223 = pd.read_csv('./epl_championship_relationship/epl_players_all_seasons_2022_12_17.csv')
+player_seasons_df_2223 = player_seasons_df_2223[player_seasons_df_2223['season_year']<2022].head()
 player_seasons_df_1718 = pd.read_csv('./epl_championship_relationship/epl_players_all_seasons_1718_2022_12_27.csv')
+player_seasons_df_1718 = player_seasons_df_1718[player_seasons_df_1718['season_year']<2017].head()
 
 # NB: This figure might be incorrect tbh, it's going purely on the name so if FBref calls two things 'First Division'
 # then it'll only show up once
