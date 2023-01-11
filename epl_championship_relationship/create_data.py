@@ -1,7 +1,5 @@
 import requests
-import re
 from bs4 import BeautifulSoup
-import numpy as np
 import pandas as pd
 import time
 import random
@@ -21,6 +19,7 @@ for i in epl_rows[2:]:
     var1.append({'team_name': i.findNext('a').text, 'slug': i.findNext('a').get('href')})
 
 # Scrape team links and get player links
+player_fbref_ids = []
 its_the_players_here = []
 for team_var in var1:
     team_url = FBREF_ROOT + team_var['slug']
@@ -33,23 +32,26 @@ for team_var in var1:
 
     for player_row in team_rows:
         player_link = player_row.find('th').find('a')
-        its_the_players_here.append(
-            {
-                "player_name": player_link.text,
-                "player_slug": player_link['href'],
-                "team_name": team_var['team_name']
-            }
-        )
+        player_fbref_id = player_row.find('th')['data-append-csv']
+        if player_fbref_id not in player_fbref_ids:
+            its_the_players_here.append(
+                {
+                    "player_name": player_link.text,
+                    "player_slug": player_link['href'],
+                    "team_name": team_var['team_name'],
+                    "player_fbref_id": player_fbref_id
+                }
+            )
 
     print(f"{team_var['team_name']} IS DONE")
     time.sleep(3.14)
 
 # Turn the list of players into a csv to store and go back to later
 players_team_df = pd.DataFrame(its_the_players_here)
-players_team_df.to_csv('./epl_championship_relationship/epl_1718_players_2022_12_27.csv', index=False)
+players_team_df.to_csv('./epl_championship_relationship/epl_1718_players_2023_01_08.csv', index=False)
 
 # Second step
-players_team_df = pd.read_csv('./epl_championship_relationship/epl_1718_players_2022_12_27.csv')
+players_team_df = pd.read_csv('./epl_championship_relationship/epl_2223_players_2023_01_07.csv')
 
 player_team_seasons_df = pd.DataFrame(
     columns=["player_name", "team_name", "current_season_minutes", "season_year", "season_age", "season_team",
@@ -137,6 +139,6 @@ def get_100_rows(player_team_seasons_df, players_team_df_section):
 # player_team_seasons_df = get_100_rows(player_team_seasons_df, players_team_df[450:500])
 # player_team_seasons_df = get_100_rows(player_team_seasons_df, players_team_df[500:550])
 # player_team_seasons_df = get_100_rows(player_team_seasons_df, players_team_df[550:600])
-player_team_seasons_df = get_100_rows(player_team_seasons_df, players_team_df[600:])
+# player_team_seasons_df = get_100_rows(player_team_seasons_df, players_team_df[600:])
 
-player_team_seasons_df.to_csv('./epl_championship_relationship/epl_players_all_seasons_1718_2022_12_27.csv', index=False)
+# player_team_seasons_df.to_csv('./epl_championship_relationship/epl_players_all_seasons_2223_2023_01_10.csv', index=False)
