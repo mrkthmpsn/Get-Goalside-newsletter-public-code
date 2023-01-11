@@ -170,3 +170,64 @@ filter1_big_five_1718 = (
 )
 # Rest of Big Five (759,413), EFL pyramid (910,329)
 
+# Could do percentage of all career minutes of the active players
+overall_2223_total_mins = overall_player_seasons_2223['sum'].sum()
+filter1_2223_total_mins = filter1_player_seasons_2223['sum'].sum()
+overall_1718_total_mins = overall_player_seasons_1718['sum'].sum()
+filter1_1718_total_mins = filter1_player_seasons_1718['sum'].sum()
+
+overall_2223_big_five_proportion = overall_big_five_2223_mins / overall_2223_total_mins
+overall_2223_pyramid_proportion = overall_pyramid_2223_mins / overall_2223_total_mins
+
+filter1_2223_big_five_proportion = filter1_big_five_2223 / filter1_2223_total_mins
+filter1_2223_pyramid_proportion = filter1_pyramid_2223 / filter1_2223_total_mins
+
+overall_1718_big_five_proportion = overall_big_five_1718_mins / overall_1718_total_mins
+overall_1718_pyramid_proportion = overall_pyramid_1718_mins / overall_1718_total_mins
+
+filter1_1718_big_five_proportion = filter1_big_five_1718 / filter1_1718_total_mins
+filter1_1718_pyramid_proportion = filter1_pyramid_1718 / filter1_1718_total_mins
+
+print(f"""
+Overall, the EFL's share of Premier League active players' career minutes has gone from 
+{round(overall_1718_pyramid_proportion * 100, 2)}% to {round(overall_2223_pyramid_proportion * 100, 2)}%
+while the rest of the European Big Five's share has gone from {round(overall_1718_big_five_proportion * 100, 2)}%
+to {round(overall_2223_big_five_proportion * 100, 2)}%  
+""")
+print(f"""
+If you do the same thing but removing newly-promoted teams, the EFL's share has gone from 
+{round(filter1_1718_pyramid_proportion * 100, 2)}% to {round(filter1_2223_pyramid_proportion * 100, 2)}%
+while the rest of the European Big Five's share has gone from {round(filter1_1718_big_five_proportion * 100, 2)}%
+to {round(filter1_2223_big_five_proportion * 100, 2)}% 
+""")
+
+# Check whether players have played in Pyramid/Big Five
+players_pyramid_2223 = (
+    relevant_players_df_2223[
+        ~(relevant_players_df_2223['season_team'].isin(var_bleh)) &
+        (relevant_players_df_2223['season_division'].isin(['Championship', 'League One', 'League Two']))
+    ].groupby(['player_name', 'team_name']).count()
+)
+# 128
+players_pyramid_1718 = (
+    relevant_players_df_1718[
+        ~(relevant_players_df_1718['season_team'].isin(var_bleh)) &
+        (relevant_players_df_1718['season_division'].isin(['Championship', 'League One', 'League Two']))
+    ].groupby(['player_name', 'team_name']).count()
+)
+# 154
+
+players_big_five_2223 = (
+    relevant_players_df_2223[
+        ~(relevant_players_df_2223['season_team'].isin(var_bleh)) &
+        (relevant_players_df_2223['season_division'].isin(['Serie A', 'Bundesliga', 'La Liga', "Ligue 1"]))
+    ].groupby(['player_name', 'team_name']).count()
+)
+# 124
+players_big_five_1718 = (
+    relevant_players_df_1718[
+        ~(relevant_players_df_1718['season_team'].isin(var_bleh)) &
+        (relevant_players_df_1718['season_division'].isin(['Serie A', 'Bundesliga', 'La Liga', "Ligue 1"]))
+        ].groupby(['player_name', 'team_name']).count()
+)
+# 115
